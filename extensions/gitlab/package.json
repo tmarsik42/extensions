@@ -145,6 +145,14 @@
       "description": "Your GitLab API token. `api` scope for read and write operations, `read_api` when you just want to read only commands.",
       "link": "https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html",
       "placeholder": "Enter your GitLab API token."
+    },
+    {
+      "name": "requestPolicy",
+      "type": "checkbox",
+      "label": "Reject unauthorized connections.",
+      "required": false,
+      "value": true,
+      "description": "Reject unauthorized connection if certificate issuer could not be validated."
     }
   ],
   "dependencies": {

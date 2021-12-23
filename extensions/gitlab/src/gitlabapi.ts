@@ -4,6 +4,8 @@ import { receiveLargeCachedObject } from "./cache";
 import { hashRecord } from "./utils";
 import util from 'util';
 import fs from 'fs';
+import * as https from "https";
+import {getPreferenceValues} from "@raycast/api";
 const streamPipeline = util.promisify(require('stream').pipeline);
 
 function userFromJson(data: any): User | undefined {
@@ -281,12 +283,18 @@ export class GitLab {
             const ps = paramString(pagedParams);
             const fullUrl = this.url + "/api/v4/" + url + ps;
             console.log(`send GET request: ${fullUrl}`);
+
+            const httpsAgent = new https.Agent({
+                rejectUnauthorized: getPreferenceValues().requestPolicy,
+            });
+
             const response = await fetch(fullUrl, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     "PRIVATE-TOKEN": this.token
-                }
+                },
+                agent: httpsAgent
             });
             return response;
         };
